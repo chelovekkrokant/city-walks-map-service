@@ -1,23 +1,69 @@
-## Предварительная проверка заданий
+# City walks map service
 
-<a href=" ./../../../actions/workflows/1_helloworld.yml" >![1. Согласована и сформулирована тема курсовой]( ./../../actions/workflows/1_helloworld.yml/badge.svg)</a>
+Веб-сервис для создания, трекинга и аналитики городских пеших прогулок и маршрутов. Проект включает интерактивную карту, интеграцию с геоданными OpenStreetMap, хранение графовых связей и расчет статистики активности пользователей.
 
-<a href=" ./../../../actions/workflows/2_usecase.yml" >![2. Usecase]( ./../../actions/workflows/2_usecase.yml/badge.svg)</a>
+> ** Это командный проект**. В рамках разработки мной был спроектирован и реализован **весь бэкенд сервиса** (REST API, графовая БД, интеграция данных, авторизация и Docker-окружение).
 
-<a href=" ./../../../actions/workflows/3_data_model.yml" >![3. Модель данных]( ./../../actions/workflows/3_data_model.yml/badge.svg)</a>
+---
 
-<a href=" ./../../../actions/workflows/4_prototype_store_and_view.yml" >![4. Прототип хранение и представление]( ./../../actions/workflows/4_prototype_store_and_view.yml/badge.svg)</a>
+## Мой вклад в проект (Backend)
 
-<a href=" ./../../../actions/workflows/5_prototype_analysis.yml" >![5. Прототип анализ]( ./../../actions/workflows/5_prototype_analysis.yml/badge.svg)</a> 
+- **Архитектура REST API**: проектирование эндпоинтов на **FastAPI**.
+- **Работа с графовыми геоданными**: 
+  - Моделирование графа дорог и пешеходных связей (ноды, ребра, маршруты).
+  - Скрипты парсинга и импорта данных из **OpenStreetMap (OSM)** (`backend/scripts/fetch_osm.py`).
+  - Генерация сидов и разбиение карты на тайлы для быстрой выборки геометрии.
+- **Бизнес-логика маршрутов и прогулок**:
+  - CRUD-операции для точек интереса (POI), пользовательских треков и готовых маршрутов.
+  - Импорт/экспорт файлов треков (GPX/GeoJSON).
+  - Расчет агрегированной аналитики (дистанции, время, посещенные районы).
+- **Безопасность**: реализация системы аутентификации и регистрации пользователей (JWT, хэширование паролей).
+- **Инфраструктура**: настройка контейнеризации сервисов и базы данных через Docker & Docker Compose.
 
-<a href=" ./../../../actions/workflows/6_report.yml" >![6. Пояснительная записка]( ./../../actions/workflows/6_report.yml/badge.svg)</a>
+---
 
-<a href=" ./../../../actions/workflows/7_app_is_ready.yml" >![7. App is ready]( ./../../actions/workflows/7_app_is_ready.yml/badge.svg)</a>
+## Стек технологий
 
-## Инструкция по запуску
-- склонируйте репозиторий: ```git clone https://github.com/moevm/nsql1h26-map/```
-- соберите приложение ```docker compose up -d``` 
-- приложение доступно по адресу: ```127.0.0.1:5678/index.html```
--   тестовый пользователь для входа: login: ```testuser@example.com``` password: ```test123```
--   тестовые данные заполняются при первоначальной сборке (```docker compose down -v && docker compose up -d --build```)
+- **Backend**: Python 3, FastAPI, Uvicorn, Pydantic
+- **База данных & Графы**: Neo4j
+- **Frontend**: JavaScript, HTML5, CSS, Vue
+- **Инфраструктура**: Docker, Docker Compose
 
+---
+
+## Структура проекта
+
+```text
+├── backend/            # FastAPI сервис (роутеры, контроллеры, OSM-парсеры)
+│   ├── routers/        # Маршруты API (walks, routes, pois, auth, tiles)
+│   ├── scripts/        # Скрипты импорта и сидирования геоданных
+│   └── main.py         # Точка входа API
+├── frontend/           # Клиентская часть (интерактивная карта, дашборды)
+└── docker-compose.yml  # Оркестрация бэкенда, фронтенда и базы данных
+
+```
+
+---
+
+## Быстрый запуск
+
+1. Склонируйте репозиторий:
+```bash
+git clone [https://github.com/chelovekkrokant/city-walks-map-service.git](https://github.com/chelovekkrokant/city-walks-map-service.git)
+cd city-walks-map-service
+
+```
+
+
+2. Соберите и запустите сервисы:
+```bash
+docker compose down -v && docker compose up -d --build
+
+```
+
+
+3. Откройте приложение в браузере:
+`http://127.0.0.1:5678/index.html`
+4. Тестовая учетная запись:
+* **Email**: `testuser@example.com`
+* **Пароль**: `test123`
